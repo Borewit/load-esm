@@ -1,7 +1,8 @@
+[![NPM version](https://img.shields.io/npm/v/load-esm.svg)](https://npmjs.org/package/load-esm)
+
 # load-esm
 
 ***load-esm*** is a utility for dynamically importing pure ESM (ECMAScript Module) packages in CommonJS TypeScript projects.
-This is particularly useful when working with Node.js environments configured for CommonJS while needing to integrate ESM-only dependencies.
 
 ## Installation
 ```bash
@@ -14,18 +15,26 @@ or
 yarn add load-esm
 ```
 
-## Features
-- Enables dynamic import of pure ESM modules in CommonJS-based projects.
-- Compatible with TypeScript, offering proper type definitions.
-- Simple and lightweight implementation.
-
 ## Usage
 
-Here’s an example demonstrating how to use load-esm to dynamically load an ESM module in a CommonJS project:
+Here’s a conceptual example demonstrating how to use load-esm to dynamically load an ESM module in a CommonJS project:
+
+```ts
+import {loadModule} from 'load-esm';
+
+/**
+ * Import 'file-type' ES-Module in CommonJS Node.js module
+ */
+(async () => {
+  const esmModule = await loadModule('esm-module');
+})();
+```
+
+A concrete example loading [file-typ](https://github.com/sindresorhus/file-type), a pure ESM package:
 
 ```ts
 import * as path from 'path';
-import { loadModule } from 'load-esm';
+import {loadModule} from 'load-esm';
 
 /**
  * Import 'file-type' ES-Module in CommonJS Node.js module
@@ -68,17 +77,18 @@ import { loadModule } from 'load-esm';
 ```
 
 ## How It Works
-The utility leverages Node.js's import() function to dynamically load ESM modules.
-This allows CommonJS-based projects to interact with ESM dependencies without converting the entire project to ESM.
+Using `await import` in a CommonJS TypeScript project poses challenges because the TypeScript compiler transpiles `import()` statements to `require()` calls when module is set to CommonJS in `tsconfig.json`.
+This behavior conflicts with the dynamic nature of `import()` used for ESM.
+
+Workarounds, such as wrapping the `import()` statement within `eval()` or similar constructs, can prevent TypeScript from transpiling it, but these approaches are clunky and error-prone.
+
+The utility of [load-esm](https://github.com/Borewit/load-esm) bypasses the TypeScript compiler by executing the `import()` outside the compilation scope. 
+By doing so, it maintains the intended behavior of `import()` for loading ESM modules dynamically, 
+providing a clean and effective solution for such scenarios.
 
 ## Compatibility
 - Node.js: Requires Node.js 13.2.0 or later, as import() is only supported in these versions and beyond.
 - TypeScript: Fully typed and compatible with TypeScript.
-
-## Why Use load-esm?
-In mixed-module environments where your project is primarily CommonJS but relies on some ESM-only dependencies,
-load-esm serves as a seamless bridge,
-enabling interoperability without changing your project’s module system.
 
 ## License
 [MIT](./LICENSE)
