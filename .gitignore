@@ -1,0 +1,11 @@
+# Project
+node_modules/
+
+#IntelliJ IDEA:
+.idea
+*.iml
+
+# Yarn:
+.pnp.*
+.yarn
+yarn-error.log

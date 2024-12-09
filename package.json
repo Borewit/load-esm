@@ -1,0 +1,45 @@
+{
+  "name": "load-esm",
+  "version": "0.1.0",
+  "main": "index.cjs",
+  "types": "index.d.ts",
+  "author": {
+    "name": "Borewit",
+    "url": "https://github.com/Borewit"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Borewit"
+    },
+    {
+      "type": "buymeacoffee",
+      "url": "https://buymeacoffee.com/borewit"
+    }
+  ],
+  "license": "MIT",
+  "description": "Utility to dynamically load ESM modules in TypeScript CommonJS projects",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Borewit/load-esm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Borewit/load-esm/issues"
+  },
+  "homepage": "https://github.com/Borewit/load-esm#readme",
+  "keywords": [
+    "load-esm",
+    "ESM",
+    "CommonJS",
+    "TypeScript",
+    "Node.js",
+    "dynamic import",
+    "JavaScript modules",
+    "module interoperability",
+    "mixed-module environment"
+  ],
+  "engines": {
+    "node": ">=13.2.0"
+  },
+  "dependencies": {}
+}
