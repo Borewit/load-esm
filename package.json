@@ -30,13 +30,12 @@
   "keywords": [
     "load-esm",
     "ESM",
+    "Import ESM",
     "CommonJS",
     "TypeScript",
     "Node.js",
     "dynamic import",
-    "JavaScript modules",
-    "module interoperability",
-    "mixed-module environment"
+    "dynamic load"
   ],
   "engines": {
     "node": ">=13.2.0"
