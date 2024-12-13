@@ -35,7 +35,12 @@
     "TypeScript",
     "Node.js",
     "dynamic import",
-    "dynamic load"
+    "dynamic load",
+    "JavaScript modules",
+    "module interoperability",
+    "mixed-module environment",
+    "ERR_PACKAGE_PATH_NOT_EXPORTED",
+    "No \"exports\" main defined in"
   ],
   "engines": {
     "node": ">=13.2.0"
