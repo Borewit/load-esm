@@ -35,10 +35,17 @@ import {loadEsm} from 'load-esm';
 })();
 ```
 
+To import the typings you need do the following:
+```ts
+import {loadEsm} from 'load-esm';
+(async () => {
+const esmModule = await loadEsm<typeof import('esm-module')>('esm-module');
+})();
+```
+
 A concrete example loading [file-typ](https://github.com/sindresorhus/file-type), a pure ESM package:
 
 ```ts
-import * as path from 'path';
 import {loadEsm} from 'load-esm';
 
 /**
@@ -46,8 +53,8 @@ import {loadEsm} from 'load-esm';
  */
 (async () => {
     try {
-        // Dynamically import the ESM module
-        const { fileTypeFromFile } = await loadEsm('file-type');
+        // Dynamically import the ESM module, including types
+        const { fileTypeFromFile } = await loadEsm<typeof import('file-type')>('file-type');
 
         // Use the imported function
         const type = await fileTypeFromFile('fixture.gif');
@@ -70,16 +77,6 @@ Dynamically imports an ESM module.
 
 #### Returns
 - A `Promise<T>` that resolves to the imported module object.
-  
-### Example
-```ts
-import { loadEsm } from 'load-esm';
-
-(async () => {
-  const module = await loadEsm('some-esm-module');
-  console.log(module);
-})();
-```
 
 ## How It Works
 Using `await import` in a CommonJS TypeScript project poses challenges because the TypeScript compiler transpiles `import()` statements to `require()` calls when module is set to CommonJS in `tsconfig.json`.
