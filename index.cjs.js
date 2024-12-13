@@ -1,3 +1,3 @@
 module.exports = {
-    loadModule: (module) => import(module)
+    loadEsm: (module) => import(module)
 };

@@ -4,6 +4,11 @@
 
 ***load-esm*** is a utility for dynamically importing pure ESM (ECMAScript Module) packages in CommonJS TypeScript projects.
 
+This resolves the error:
+```
+Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in...
+```
+
 ## Installation
 ```bash
 npm install load-esm
@@ -20,13 +25,13 @@ yarn add load-esm
 Here’s a conceptual example demonstrating how to use load-esm to dynamically load an ESM module in a CommonJS project:
 
 ```ts
-import {loadModule} from 'load-esm';
+import {loadEsm} from 'load-esm';
 
 /**
  * Import 'file-type' ES-Module in CommonJS Node.js module
  */
 (async () => {
-  const esmModule = await loadModule('esm-module');
+  const esmModule = await loadEsm('esm-module');
 })();
 ```
 
@@ -34,7 +39,7 @@ A concrete example loading [file-typ](https://github.com/sindresorhus/file-type)
 
 ```ts
 import * as path from 'path';
-import {loadModule} from 'load-esm';
+import {loadEsm} from 'load-esm';
 
 /**
  * Import 'file-type' ES-Module in CommonJS Node.js module
@@ -42,7 +47,7 @@ import {loadModule} from 'load-esm';
 (async () => {
     try {
         // Dynamically import the ESM module
-        const { fileTypeFromFile } = await loadModule('file-type');
+        const { fileTypeFromFile } = await loadEsm('file-type');
 
         // Use the imported function
         const type = await fileTypeFromFile('fixture.gif');
@@ -56,7 +61,7 @@ import {loadModule} from 'load-esm';
 ## API
 
 ```ts
-loadModule<T = any>(name: string): Promise<T>
+loadEsm<T = any>(name: string): Promise<T>
 ```
 Dynamically imports an ESM module.
 
@@ -68,10 +73,10 @@ Dynamically imports an ESM module.
   
 ### Example
 ```ts
-import { loadModule } from 'load-esm';
+import { loadEsm } from 'load-esm';
 
 (async () => {
-  const module = await loadModule('some-esm-module');
+  const module = await loadEsm('some-esm-module');
   console.log(module);
 })();
 ```

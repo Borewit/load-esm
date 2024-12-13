@@ -1,1 +1,1 @@
-export function loadModule<T = any>(name: string): Promise<T>;
+export function loadEsm<T = any>(name: string): Promise<T>;
