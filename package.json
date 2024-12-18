@@ -1,7 +1,7 @@
 {
   "name": "load-esm",
   "version": "1.0.0",
-  "main": "index.cjs",
+  "main": "index.js",
   "types": "index.d.ts",
   "author": {
     "name": "Borewit",
