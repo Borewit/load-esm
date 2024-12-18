@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "compile-test": "tsc -p test"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
   "author": {
     "name": "Borewit",
     "url": "https://github.com/Borewit"
@@ -45,5 +53,12 @@
   "engines": {
     "node": ">=13.2.0"
   },
-  "dependencies": {}
+  "devDependencies": {
+    "@types/chai": "^5.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.10.2",
+    "chai": "^4.3.4",
+    "mocha": "^11.0.1",
+    "typescript": "^5.7.2"
+  }
 }
