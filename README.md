@@ -28,9 +28,6 @@ Here’s a conceptual example demonstrating how to use load-esm to dynamically l
 ```ts
 import {loadEsm} from 'load-esm';
 
-/**
- * Import 'file-type' ES-Module in CommonJS Node.js module
- */
 (async () => {
   const esmModule = await loadEsm('esm-module');
 })();
