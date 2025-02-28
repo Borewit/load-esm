@@ -5,10 +5,9 @@
 
 ***load-esm*** is a utility for dynamically importing pure ESM (ECMAScript Module) packages in CommonJS TypeScript projects.
 
-This resolves the error:
-```
-Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in...
-```
+This may resolve the following errors:
+- `Error [ERR_REQUIRE_ESM]: require() of ES Module`
+- `Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in...`
 
 ## Installation
 ```bash
@@ -81,6 +80,10 @@ Using `await import` in a CommonJS TypeScript project poses challenges because t
 This behavior conflicts with the dynamic nature of `import()` used for ESM.
 
 Workarounds, such as wrapping the `import()` statement within `eval()` or similar constructs, can prevent TypeScript from transpiling it, but these approaches are clunky and error-prone.
+
+Since Node version 22.12.0 [require is able to load some ESM](https://joyeecheung.github.io/blog/2024/03/18/require-esm-in-node-js/), 
+although with [some constraints](https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require).
+If that works for you, you may longer need to module.
 
 The utility of [load-esm](https://github.com/Borewit/load-esm) bypasses the TypeScript compiler by executing the `import()` outside the compilation scope. 
 By doing so, it maintains the intended behavior of `import()` for loading ESM modules dynamically, 

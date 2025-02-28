@@ -47,6 +47,8 @@
     "JavaScript modules",
     "module interoperability",
     "mixed-module environment",
+    "ERR_REQUIRE_ESM",
+    "require() of ES Module",
     "ERR_PACKAGE_PATH_NOT_EXPORTED",
     "No \"exports\" main defined in"
   ],
