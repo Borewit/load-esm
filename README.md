@@ -41,7 +41,7 @@ const esmModule = await loadEsm<typeof import('esm-module')>('esm-module');
 })();
 ```
 
-A concrete example loading [file-typ](https://github.com/sindresorhus/file-type), a pure ESM package:
+A concrete example loading [file-type](https://github.com/sindresorhus/file-type), a pure ESM package:
 
 ```ts
 import {loadEsm} from 'load-esm';
