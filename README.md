@@ -1,5 +1,6 @@
 [![Node.js CI](https://github.com/Borewit/load-esm/actions/workflows/nodejs-ci.yml/badge.svg)](https://github.com/Borewit/load-esm/actions/workflows/nodejs-ci.yml)
 [![NPM version](https://img.shields.io/npm/v/load-esm.svg)](https://npmjs.org/package/load-esm)
+[![npm downloads](http://img.shields.io/npm/dm/load-esm.svg)](https://npmcharts.com/compare/load-esm?start=365)
 
 # load-esm
 
