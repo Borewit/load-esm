@@ -4,95 +4,137 @@
 
 # load-esm
 
-***load-esm*** is a utility for dynamically importing pure ESM (ECMAScript Module) packages in CommonJS TypeScript projects.
+**load-esm** is a tiny utility that lets CommonJS (CJS) TypeScript projects **dynamically import pure ESM packages** at runtime—without hacks like `eval()`.
 
-This may resolve the following errors:
-- `Error [ERR_REQUIRE_ESM]: require() of ES Module`
-- `Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in...`
+It helps avoid errors like:
+
+* `Error [ERR_REQUIRE_ESM]: require() of ES Module`
+* `Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in ...`
+
+---
 
 ## Installation
+
 ```bash
 npm install load-esm
-```
-
-or
-
-```bash
+# or
 yarn add load-esm
+# or
+pnpm add load-esm
 ```
 
-## Usage
+> Works in CJS TypeScript projects. No config changes required.
 
-Here’s a conceptual example demonstrating how to use load-esm to dynamically load an ESM module in a CommonJS project:
+---
+
+## Quick start
 
 ```ts
-import {loadEsm} from 'load-esm';
+// TypeScript (CJS project)
+import { loadEsm } from "load-esm";
 
 (async () => {
-  const esmModule = await loadEsm('esm-module');
+  const esmModule = await loadEsm("esm-module");
+  // use esmModule...
 })();
 ```
 
-To import the typings you need do the following:
+### With typings
+
 ```ts
-import {loadEsm} from 'load-esm';
+import { loadEsm } from "load-esm";
+
 (async () => {
-const esmModule = await loadEsm<typeof import('esm-module')>('esm-module');
+  const esmModule = await loadEsm<typeof import("esm-module")>("esm-module");
+  // esmModule is fully typed
 })();
 ```
 
-A concrete example loading [file-type](https://github.com/sindresorhus/file-type), a pure ESM package:
+### Concrete example (pure ESM package)
 
 ```ts
-import {loadEsm} from 'load-esm';
+import { loadEsm } from "load-esm";
 
-/**
- * Import 'file-type' ES-Module in CommonJS Node.js module
- */
 (async () => {
-    try {
-        // Dynamically import the ESM module, including types
-        const { fileTypeFromFile } = await loadEsm<typeof import('file-type')>('file-type');
+  try {
+    // Import a pure ESM package from a CommonJS TS project
+    const { fileTypeFromFile } = await loadEsm<typeof import("file-type")>(
+      "file-type"
+    );
 
-        // Use the imported function
-        const type = await fileTypeFromFile('fixture.gif');
-        console.log(type);
-    } catch (error) {
-        console.error('Error importing module:', error);
-    }
+    const type = await fileTypeFromFile("fixture.gif");
+    console.log(type);
+  } catch (error) {
+    console.error("Error importing module:", error);
+  }
 })();
 ```
+
+> Note: Because top‑level `await` isn’t available in CommonJS, examples use an async IIFE.
+
+---
 
 ## API
 
 ```ts
-loadEsm<T = any>(name: string): Promise<T>
+function loadEsm<T = unknown>(name: string): Promise<T>
 ```
-Dynamically imports an ESM module.
 
-#### Parameters
-- `name` (string): The name or path of the module to load.
+**Parameters**
 
-#### Returns
-- A `Promise<T>` that resolves to the imported module object.
+* `name` — Package name or file path to import.
 
-## How It Works
-Using `await import` in a CommonJS TypeScript project poses challenges because the TypeScript compiler transpiles `import()` statements to `require()` calls when module is set to CommonJS in `tsconfig.json`.
-This behavior conflicts with the dynamic nature of `import()` used for ESM.
+**Returns**
 
-Workarounds, such as wrapping the `import()` statement within `eval()` or similar constructs, can prevent TypeScript from transpiling it, but these approaches are clunky and error-prone.
+* `Promise<T>` resolving to the imported module namespace.
 
-Since Node version 22.12.0 [require is able to load some ESM](https://joyeecheung.github.io/blog/2024/03/18/require-esm-in-node-js/), 
-although with [some constraints](https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require).
-If that works for you, you may longer need to module.
+---
 
-The utility of [load-esm](https://github.com/Borewit/load-esm) bypasses the TypeScript compiler by executing the `import()` outside the compilation scope. 
-By doing so, it maintains the intended behavior of `import()` for loading ESM modules dynamically, 
-providing a clean and effective solution for such scenarios.
+## How it works
+
+In CJS TypeScript projects (`"module": "commonjs"`), the TS compiler transpiles dynamic `import()` to `require()`, which **breaks** when the target is a pure ESM package.
+
+`load-esm` executes the `import()` **outside of TypeScript’s transpilation scope**, preserving native dynamic `import()` semantics at runtime. This keeps your code type‑safe while avoiding brittle workarounds (e.g., wrapping `import()` in `eval()`).
+
+### What about Node.js ≥ 22.12?
+
+Since Node.js 22.12, `require` can load **some** ESM modules, but there are [documented constraints](https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require). If your dependencies are compatible with that path, you might not need this utility. `load-esm` remains useful when:
+
+* You’re on older Node.js versions that support `import()` (see Compatibility) but not the newer `require()` behavior.
+* You want a single, consistent pattern that works across environments and avoids edge cases.
+
+> If Node’s built‑in `require(esm)` works for your packages and version, feel free to use it.
+
+---
 
 ## Compatibility
-- Node.js: Requires Node.js 13.2.0 or later, as import() is only supported in these versions and beyond.
-- TypeScript: Fully typed and compatible with TypeScript.
+
+* **Node.js**: ≥ 13.2.0 (first version with native `import()` support)
+* **TypeScript**: Fully typed; works in CJS projects.
+
+---
+
+## Troubleshooting
+
+* **`ERR_REQUIRE_ESM`**: Ensure you’re using `load-esm(...)` to import the ESM dependency from CJS code.
+* **`No "exports" main defined`**: Some packages only expose ESM entry points. Import them via `load-esm`.
+* **Type declarations**: Use the generic form `loadEsm<typeof import("pkg")>("pkg")` for typed access.
+* **Top‑level await**: Wrap usage in an async IIFE in CJS.
+
+---
 
 ## License
+
 [MIT](./LICENSE)
+
+---
+
+### Changelog
+
+See [Releases](https://github.com/Borewit/load-esm/releases).
+
+---
+
+### Acknowledgements
+
+Inspired by common pain points when mixing CJS projects with modern ESM‑only libraries.
