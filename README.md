@@ -125,7 +125,7 @@ Since Node.js 22.12, `require` can load **some** ESM modules, but there are [doc
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE.txt)
 
 ---
 
