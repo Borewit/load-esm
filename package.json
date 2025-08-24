@@ -1,6 +1,6 @@
 {
   "name": "load-esm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "commonjs",
   "main": "index.js",
   "types": "index.d.ts",
